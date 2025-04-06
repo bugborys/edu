@@ -19,6 +19,7 @@ This playbook automates the installation of popular OSINT tools used for open-so
 osint-playbook/
 ├── osint.yml
 ├── README.md
+├── requirements.yml
 └── roles/
     ├── amass/
     ├── theharvester/
