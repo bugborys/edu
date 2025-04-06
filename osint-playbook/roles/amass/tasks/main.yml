@@ -1,0 +1,7 @@
+---
+- name: Install Amass via Snap
+  snap:
+    name: amass
+    state: present
+    classic: yes
+  tags: amass

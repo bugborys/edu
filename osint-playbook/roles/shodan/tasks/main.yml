@@ -1,0 +1,15 @@
+---
+- name: Install shodan via pip
+  pip:
+    name: shodan
+    executable: pip3
+  tags: shodan
+
+- name: Ensure CLI wrapper exists for shodan
+  copy:
+    dest: /usr/local/bin/shodan
+    content: |
+      #!/usr/bin/env bash
+      python3 -m shodan "$@"
+    mode: '0755'
+  tags: shodan

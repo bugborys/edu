@@ -1,0 +1,19 @@
+---
+- name: Clone theHarvester repo
+  git:
+    repo: https://github.com/laramies/theHarvester.git
+    dest: "{{ install_path }}/theHarvester"
+    version: master
+  tags: theharvester
+
+- name: Install theHarvester dependencies
+  pip:
+    requirements: "{{ install_path }}/theHarvester/requirements.txt"
+  tags: theharvester
+
+- name: Create symlink for theHarvester
+  file:
+    src: "{{ install_path }}/theHarvester/theHarvester.py"
+    dest: /usr/local/bin/theHarvester
+    state: link
+  tags: theharvester

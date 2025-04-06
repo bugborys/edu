@@ -1,0 +1,15 @@
+---
+- name: OSINT tools
+  hosts: ec2
+  become: true
+  vars:
+    install_path: /opt/osint-tools
+
+  roles:
+    - role: base
+    - role: amass
+    - role: theharvester
+    - role: subfinder
+    - role: shodan
+    - role: gitdorker
+    - role: trufflehog

@@ -1,0 +1,31 @@
+---
+- name: Download Subfinder binary
+  get_url: 
+    url: https://github.com/projectdiscovery/subfinder/releases/download/v2.7.0/subfinder_2.7.0_linux_amd64.zip
+    dest: /tmp/subfinder.zip
+  tags: subfinder
+
+- name: Ensure /tmp/subfinder directory exists
+  file:
+    path: /tmp/subfinder
+    state: directory
+    mode: '0755'
+  tags: subfinder
+
+- name: Unzip Subfinder
+  unarchive:
+    src: /tmp/subfinder.zip
+    dest: /tmp/subfinder
+    remote_src: yes
+    creates: /tmp/subfinder/subfinder
+  tags: subfinder
+
+- name: Move binary
+  command: mv /tmp/subfinder/subfinder /usr/local/bin/subfinder
+  tags: subfinder
+
+- name: Make subfinder binary executable
+  file:
+    path: /usr/local/bin/subfinder
+    mode: '0755'
+  tags: subfinder

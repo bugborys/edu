@@ -1,0 +1,11 @@
+---
+- name: Check if required packages are installed
+  apt:
+    name:
+      - git
+      - python3-pip
+      - unzip
+      - snapd
+    state: present
+    update_cache: true
+  tags: base
