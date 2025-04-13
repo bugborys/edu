@@ -6,6 +6,7 @@
       - python3-pip
       - unzip
       - snapd
+      - pipx
     state: present
     update_cache: true
   tags: base

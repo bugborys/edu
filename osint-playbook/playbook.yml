@@ -6,11 +6,13 @@
     install_path: /opt/osint-tools
 
   roles:
-    - role: base
     - role: amass
-    - role: theharvester
-    - role: subfinder
-    - role: shodan
+    - role: base
+    - role: bbot
+    - role: evilginx
     - role: gitdorker
+    - role: gophish
+    - role: shodan
+    - role: subfinder
     - role: trufflehog
-
+    - role: theharvester

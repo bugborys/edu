@@ -1,0 +1,11 @@
+---
+- name: Install bbot via pipx
+  command: >
+    pipx install bbot{{ '==' + bbot_version if bbot_version != 'latest' else '' }}
+  become: false
+  environment:
+    PIPX_DEFAULT_PYTHON: "{{ ansible_python.executable }}"
+  register: bbot_install
+  failed_when: "'already seems to be installed' not in bbot_install.stderr and bbot_install.rc != 0"
+  changed_when: "'already seems to be installed' not in bbot_install.stderr"
+  tags: bbot

@@ -5,6 +5,7 @@ This playbook automates the installation of popular OSINT tools used for open-so
 ## 🔧 Tools Installed:
 
 - **Amass** — Subdomain enumeration (installed via `snap`)
+- **bbot** - multi scanner (installed via `pipx`)
 - **theHarvester** — Email, subdomain, and domain search
 - **Subfinder** — Passive subdomain enumeration
 - **Shodan CLI** — Interaction with the Shodan API
@@ -21,6 +22,7 @@ osint-playbook/
 ├── README.md
 └── roles/
     ├── amass/
+    ├── bbot/
     ├── theharvester/
     ├── subfinder/
     ├── shodan/
@@ -64,3 +66,4 @@ your.vps.ip.address ansible_user=your_user
 - Ansible ≥ 2.9
 - Sudo privileges
 - Internet connection
+
