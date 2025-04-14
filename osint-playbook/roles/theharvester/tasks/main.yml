@@ -1,4 +1,3 @@
----
 - name: Clone theHarvester repo
   git:
     repo: https://github.com/laramies/theHarvester.git
@@ -6,14 +5,23 @@
     version: master
   tags: theharvester
 
-- name: Install theHarvester dependencies
-  pip:
-    requirements: "{{ install_path }}/theHarvester/requirements.txt"
+- name: Create venv for theHarvester
+  command: python3 -m venv {{ install_path }}/theHarvester/venv
+  args:
+    creates: "{{ install_path }}/theHarvester/venv"
   tags: theharvester
 
-- name: Create symlink for theHarvester
-  file:
-    src: "{{ install_path }}/theHarvester/theHarvester.py"
-    dest: /usr/local/bin/theHarvester
-    state: link
+- name: Install theHarvester dependencies in venv
+  pip:
+    requirements: "{{ install_path }}/theHarvester/requirements.txt"
+    virtualenv: "{{ install_path }}/theHarvester/venv"
+  tags: theharvester
+
+- name: Create wrapper script for theHarvester
+  copy:
+    dest: /usr/local/bin/theharvester
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      {{ install_path }}/theHarvester/venv/bin/python {{ install_path }}/theHarvester/theHarvester.py "$@"
   tags: theharvester

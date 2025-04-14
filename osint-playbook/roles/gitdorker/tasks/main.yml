@@ -5,9 +5,16 @@
     dest: "{{ install_path }}/GitDorker"
   tags: gitdorker
 
-- name: Install GitDorker requirements
+- name: Create venv for GitDorker
+  command: python3 -m venv /opt/osint-tools/GitDorker/venv
+  args:
+    creates: /opt/osint-tools/GitDorker/venv
+  tags: gitdorker
+
+- name: Install requirements in venv
   pip:
-    requirements: "{{ install_path }}/GitDorker/requirements.txt"
+    requirements: /opt/osint-tools/GitDorker/requirements.txt
+    virtualenv: /opt/osint-tools/GitDorker/venv
   tags: gitdorker
 
 - name: Create symlink for GitDorker

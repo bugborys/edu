@@ -1,0 +1,13 @@
+[Unit]
+Description=Evilginx2 phishing framework
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/evilginx -p /opt/evilginx2/phishlets
+Restart=always
+User=root
+WorkingDirectory=/root
+
+[Install]
+WantedBy=multi-user.target

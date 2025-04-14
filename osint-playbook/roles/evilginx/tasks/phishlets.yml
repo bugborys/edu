@@ -1,0 +1,15 @@
+---
+
+- name: Remove phishlets directory if it exists (force clone)
+  file:
+    path: "{{ evilginx_phishlets_dir }}"
+    state: absent
+  tags: evilginx
+
+- name: Clone Evilginx2 phishlets repo
+  git:
+    repo: https://github.com/An0nUD4Y/Evilginx2-Phishlets
+    dest: "{{ evilginx_phishlets_dir }}"
+    version: master
+    update: yes
+  tags: evilginx

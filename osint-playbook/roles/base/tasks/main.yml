@@ -7,6 +7,8 @@
       - unzip
       - snapd
       - pipx
+      - make
+      - golang
     state: present
     update_cache: true
   tags: base

@@ -1,0 +1,88 @@
+---
+
+- name: Setup Golang
+  import_tasks: go.yml
+  tags: evilginx
+
+- name: Create installation folder
+  file:
+    path: "{{ evilginx_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: evilginx
+
+- name: Clone Evilginx2 repo
+  git:
+    repo: https://github.com/kgretzky/evilginx2.git
+    dest: "{{ evilginx_install_dir }}"
+    version: master
+    force: yes
+  tags: evilginx
+
+- name: Build Evilginx2
+  make:
+    chdir: "{{ evilginx_install_dir }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/go/bin"
+  tags: evilginx
+
+- name: Copy Evilginx2 binary to usr/local/bin
+  copy:
+    src: "{{ evilginx_install_dir }}/build/evilginx"
+    dest: /usr/local/bin/evilginx
+    mode: '0755'
+    remote_src: yes
+  tags: evilginx
+
+- name: Create config directory
+  file:
+    path: /root/.evilginx
+    state: directory
+    mode: 0700
+  tags: evilginx
+
+- name: Include phishlets setup
+  import_tasks: phishlets.yml
+  tags: evilginx
+
+- name: Allow SSH in UFW 
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+  tags: evilginx
+
+- name: Open HTTP and HTTPS ports in UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - 80
+    - 443
+  tags: evilginx
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+  tags: evilginx
+
+- name: Copy systemd service for Evilginx2
+  copy:
+    src: evilginx.service
+    dest: /etc/systemd/system/evilginx.service
+    mode: '0644'
+  tags: evilginx
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+  tags: evilginx
+
+- name: Enable and start Evilginx2 service
+  systemd:
+    name: evilginx
+    enabled: yes
+    state: restarted
+  tags: evilginx
+

@@ -1,0 +1,34 @@
+---
+
+- name: Remove old Golang
+  apt:
+    name: golang-go
+    state: absent
+  tags: evilginx
+
+- name: Download Golang archive
+  get_url:
+    url: https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
+    dest: /tmp/go1.22.2.linux-amd64.tar.gz
+  tags: evilginx
+
+- name: Remove old Golang directory
+  file:
+    path: /usr/local/go
+    state: absent
+  tags: evilginx
+
+- name: Extract Golang
+  unarchive:
+    src: /tmp/go1.22.2.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: yes
+  tags: evilginx
+
+- name: Add Golang to PATH
+  copy:
+    dest: /etc/profile.d/go.sh
+    content: |
+      export PATH=/usr/local/go/bin:$PATH
+    mode: '0755'
+  tags: evilginx

@@ -1,0 +1,5 @@
+---
+
+evilginx_install_dir: /opt/osint-tools/evilginx2
+evilginx_phishlets_dir: /opt/osint-tools/evilginx2/phishlets
+evilginx_go_version: "1.22.2"

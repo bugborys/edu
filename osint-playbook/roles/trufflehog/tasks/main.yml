@@ -1,5 +1,20 @@
 ---
-- name: Install TruffleHog via pip
+
+- name: Create venv for TruffleHog
+  command: python3 -m venv /opt/osint-tools/trufflehog/venv
+  args:
+    creates: /opt/osint-tools/trufflehog/venv
+  tags: trufflehog
+
+- name: Install TruffleHog in venv
   pip:
     name: trufflehog
+    virtualenv: /opt/osint-tools/trufflehog/venv
+  tags: trufflehog
+
+- name: Symlink trufflehog binary to /usr/local/bin
+  file:
+    src: /opt/osint-tools/trufflehog/venv/bin/trufflehog
+    dest: /usr/local/bin/trufflehog
+    state: link
   tags: trufflehog

@@ -1,15 +1,20 @@
 ---
-- name: Install shodan via pip
-  pip:
-    name: shodan
-    executable: pip3
+
+- name: Create venv for Shodan
+  command: python3 -m venv /opt/osint-tools/shodan-env/
+  args:
+    creates: /opt/osint-tools/shodan-env
   tags: shodan
 
-- name: Ensure CLI wrapper exists for shodan
-  copy:
+- name: Install shodan in vevnv
+  pip:
+    name: shodan
+    virtualenv: /opt/osint-tools/shodan-env
+  tags: shodan
+
+- name: Symlink shodan binary to /usr/local/bin
+  file:
+    src: /opt/osint-tools/shodan-env/bin/shodan
     dest: /usr/local/bin/shodan
-    content: |
-      #!/usr/bin/env bash
-      python3 -m shodan "$@"
-    mode: '0755'
+    state: link
   tags: shodan
